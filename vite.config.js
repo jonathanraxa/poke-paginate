@@ -10,4 +10,6 @@ export default defineConfig({
       },
     },
   },
+  base: '/poke-paginate/', // 👈 This is important
 });
+
