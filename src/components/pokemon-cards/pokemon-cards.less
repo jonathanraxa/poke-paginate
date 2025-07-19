@@ -6,6 +6,130 @@
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
+.search-section {
+  margin-bottom: 3rem;
+}
+
+.search-container {
+  margin-bottom: 2rem;
+}
+
+.search-input-group {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border-radius: 50px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: none;
+
+  &:focus-within {
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+  }
+}
+
+.search-icon {
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  padding: 0.75rem 1rem;
+  color: #6c757d;
+}
+
+.search-input {
+  border: none !important;
+  background: transparent !important;
+  font-size: 1.1rem !important;
+  padding: 0.75rem 1rem !important;
+
+  &:focus {
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  &::placeholder {
+    color: #6c757d;
+    font-style: italic;
+  }
+}
+
+.clear-button {
+  border: none !important;
+  background: transparent !important;
+  color: #6c757d !important;
+  padding: 0.75rem 1rem !important;
+  font-size: 1.1rem !important;
+  transition: all 0.3s ease !important;
+
+  &:hover {
+    background: #f8f9fa !important;
+    color: #495057 !important;
+  }
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 400px;
+}
+
+.loading-spinner {
+  font-size: 1.5rem;
+  color: white;
+  font-weight: 600;
+  text-align: center;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.no-results-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 400px;
+}
+
+.no-results {
+  text-align: center;
+  padding: 3rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  color: white;
+}
+
+.no-results-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.no-results-text {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  font-weight: 500;
+}
+
+.clear-search-btn {
+  border: 2px solid white !important;
+  color: white !important;
+  background: transparent !important;
+  padding: 0.75rem 2rem !important;
+  border-radius: 25px !important;
+  font-weight: 600 !important;
+  transition: all 0.3s ease !important;
+
+  &:hover {
+    background: white !important;
+    color: #667eea !important;
+    transform: translateY(-2px);
+  }
+}
+
 .pokemon-grid {
   display: flex;
   flex-wrap: wrap;

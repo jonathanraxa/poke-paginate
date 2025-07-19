@@ -1,44 +1,82 @@
-import { ButtonGroup, Button, Card, ListGroup } from 'react-bootstrap';
+import { useState } from 'react';
+import { ButtonGroup, Button, Card, Form, InputGroup, Container, Row, Col } from 'react-bootstrap';
 import { useGetPokemon } from '../../hooks/useGetPokemon';
 import './pokemon-cards.less';
 
 export const PokemonCards = () => {
-  const { allPokemon, page, setPage, total } = useGetPokemon({ limit: 20 });
+  const [searchTerm, setSearchTerm] = useState('');
+  const { allPokemon, page, setPage, total, loading } = useGetPokemon({ limit: 20 });
 
   return (
     <div className="pokemon-app">
-      <div className="pokemon-grid">
-        {allPokemon.map((poke) => (
-          <Card key={poke.name} className="pokemon-card">
-            <div className="pokemon-image-container">
-              <Card.Img
-                variant="top"
-                src={poke.img}
-                className="pokemon-image"
-                alt={`${poke.name} sprite`}
-              />
+      <Container className="search-section">
+        <Row className="justify-content-center">
+          <Col md={6} lg={4}>
+            <div className="search-container">
+              <InputGroup className="search-input-group">
+                <InputGroup.Text className="search-icon">
+                  🔍
+                </InputGroup.Text>
+                <Form.Control
+                  type="text"
+                  placeholder="Search for a Pokémon..."
+                  value={searchTerm ?? ''}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="search-input"
+                  size="lg"
+                />
+                {searchTerm && (
+                  <Button
+                    variant="outline-secondary"
+                    onClick={() => setSearchTerm('')}
+                    className="clear-button"
+                  >
+                    ✕
+                  </Button>
+                )}
+              </InputGroup>
             </div>
-            <Card.Body className="pokemon-body">
-              <Card.Title className="pokemon-name">
-                {poke.name.charAt(0).toUpperCase() + poke.name.slice(1)}
-              </Card.Title>
-              <div className="pokemon-stats">
-                {poke.stats.map((stat) => (
-                  <div key={stat.stat?.name} className="stat-item">
-                    <span className="stat-name">{stat.stat?.name}</span>
-                    <div className="stat-bar">
-                      <div
-                        className="stat-fill"
-                        style={{ width: `${(stat.base_stat / 255) * 100}%` }}
-                      ></div>
-                    </div>
-                    <span className="stat-value">{stat.base_stat}</span>
-                  </div>
-                ))}
+          </Col>
+        </Row>
+      </Container>
+      <div className="pokemon-grid">
+        {loading ? (
+          <div className="loading-container">
+            <div className="loading-spinner">Loading Pokémon...</div>
+          </div>
+        ) : (
+          allPokemon.map((poke) => (
+            <Card key={poke.name} className="pokemon-card">
+              <div className="pokemon-image-container">
+                <Card.Img
+                  variant="top"
+                  src={poke.img}
+                  className="pokemon-image"
+                  alt={`${poke.name} sprite`}
+                />
               </div>
-            </Card.Body>
-          </Card>
-        ))}
+              <Card.Body className="pokemon-body">
+                <Card.Title className="pokemon-name">
+                  {poke.name.charAt(0).toUpperCase() + poke.name.slice(1)}
+                </Card.Title>
+                <div className="pokemon-stats">
+                  {poke.stats.map((stat) => (
+                    <div key={stat.stat?.name} className="stat-item">
+                      <span className="stat-name">{stat.stat?.name}</span>
+                      <div className="stat-bar">
+                        <div
+                          className="stat-fill"
+                          style={{ width: `${(stat.base_stat / 255) * 100}%` }}
+                        ></div>
+                      </div>
+                      <span className="stat-value">{stat.base_stat}</span>
+                    </div>
+                  ))}
+                </div>
+              </Card.Body>
+            </Card>
+          ))
+        )}
       </div>
 
       <div className="pagination-container">
