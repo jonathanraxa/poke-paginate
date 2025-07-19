@@ -5,7 +5,7 @@ import './pokemon-cards.less';
 
 export const PokemonCards = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const { allPokemon, page, setPage, total, loading } = useGetPokemon({ limit: 20 });
+  const { allPokemon, page, setPage, total, loading } = useGetPokemon({ limit: 20, searchTerm });
 
   return (
     <div className="pokemon-app">
