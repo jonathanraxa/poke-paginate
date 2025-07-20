@@ -5,7 +5,12 @@ import './pokemon-cards.less';
 
 export const PokemonCards = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const { allPokemon, page, setPage, total, loading } = useGetPokemon({ limit: 20, searchTerm });
+  const { handleSearch, allPokemon, page, setPage, total, loading } = useGetPokemon({ limit: 20 });
+
+  const handleInnerSearch = (e) => {
+    setSearchTerm(e.target.value);
+    handleSearch(e.target.value);
+  }
 
   return (
     <div className="pokemon-app">
@@ -21,14 +26,17 @@ export const PokemonCards = () => {
                   type="text"
                   placeholder="Search for a Pokémon..."
                   value={searchTerm ?? ''}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onChange={handleInnerSearch}
                   className="search-input"
                   size="lg"
                 />
                 {searchTerm && (
                   <Button
                     variant="outline-secondary"
-                    onClick={() => setSearchTerm('')}
+                    onClick={() => {
+                      setSearchTerm('');
+                      handleSearch('');
+                    }}
                     className="clear-button"
                   >
                     ✕
@@ -78,30 +86,31 @@ export const PokemonCards = () => {
           ))
         )}
       </div>
-
-      <div className="pagination-container">
-        <ButtonGroup className="pagination-buttons">
-          <Button
-            variant="outline-primary"
-            onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-            disabled={page <= 1}
-            className="nav-button"
-          >
-            ← Previous
-          </Button>
-          <div className="page-info">
-            Page {page} of {total}
-          </div>
-          <Button
-            variant="outline-primary"
-            onClick={() => setPage((prev) => Math.min(prev + 1, total))}
-            disabled={page >= total}
-            className="nav-button"
-          >
-            Next →
-          </Button>
-        </ButtonGroup>
-      </div>
+      {!searchTerm && (
+        <div className="pagination-container">
+          <ButtonGroup className="pagination-buttons">
+            <Button
+              variant="outline-primary"
+              onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+              disabled={page <= 1}
+              className="nav-button"
+            >
+              ← Previous
+            </Button>
+            <div className="page-info">
+              Page {page} of {total}
+            </div>
+            <Button
+              variant="outline-primary"
+              onClick={() => setPage((prev) => Math.min(prev + 1, total))}
+              disabled={page >= total}
+              className="nav-button"
+            >
+              Next →
+            </Button>
+          </ButtonGroup>
+        </div>
+      )}
     </div>
   );
 };

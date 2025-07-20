@@ -3,8 +3,9 @@ import { useEffect, useState } from 'react';
 
 const url = 'https://pokeapi.co/api/v2/pokemon/';
 
-export const useGetPokemon = ({ limit, searchTerm }) => {
+export const useGetPokemon = ({ limit }) => {
   const [allPokemon, setAllPokemon] = useState([]);
+  const [filteredPokemon, setFilteredPokemon] = useState([]);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -36,6 +37,7 @@ export const useGetPokemon = ({ limit, searchTerm }) => {
       );
 
       setAllPokemon(results);
+      setFilteredPokemon(results); // Initialize filtered list with all Pokemon
       setTotal(Math.ceil(pokemon.count / limit));
     } catch (err) {
       console.error('Failed to fetch Pokémon:', err);
@@ -44,15 +46,27 @@ export const useGetPokemon = ({ limit, searchTerm }) => {
     }
   }, [limit, page]);
 
+  const handleSearch = (searchTerm) => {
+    if (!searchTerm.trim()) {
+      setFilteredPokemon(allPokemon); // Show all Pokemon when search is empty
+    } else {
+      const filtered = allPokemon.filter((pokemon) =>
+        pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredPokemon(filtered);
+    }
+  }
+
   useEffect(() => {
     fetchAllPokemon();
   }, [fetchAllPokemon]);
 
   return {
-    allPokemon,
+    allPokemon: filteredPokemon, // Return filtered Pokemon instead of all Pokemon
     total,
     setPage,
     page,
     loading,
+    handleSearch,
   }
 }
