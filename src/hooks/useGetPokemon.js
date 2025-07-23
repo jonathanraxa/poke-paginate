@@ -1,7 +1,7 @@
 import { useCallback, useRef } from 'react';
 import { useEffect, useState } from 'react';
+import { getPokemon } from '../api/pokemon';
 
-const url = 'https://pokeapi.co/api/v2/pokemon/';
 
 export const useGetPokemon = ({ limit }) => {
   const [allPokemon, setAllPokemon] = useState([]);
@@ -14,28 +14,8 @@ export const useGetPokemon = ({ limit }) => {
   const fetchAllPokemon = useCallback(async () => {
     setLoading(true);
     try {
-      // Calculate offset based on page
-      const offset = (page - 1) * limit;
+      const results = await getPokemon(page, limit);
 
-      const params = new URLSearchParams({
-        limit: limit.toString(),
-        offset: offset.toString(),
-      });
-
-      const res = await fetch(`${url}?${params.toString()}`);
-      const pokemon = await res.json();
-
-      const results = await Promise.all(
-        pokemon.results.map(async ({ name, url }) => {
-          const result = await fetch(url);
-          const individual = await result.json();
-          return {
-            name,
-            img: individual.sprites?.front_default || individual.sprites?.back_default,
-            stats: individual.stats
-          };
-        })
-      );
 
       setAllPokemon(results);
       setFilteredPokemon(results); // Initialize filtered list with all Pokemon

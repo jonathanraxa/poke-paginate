@@ -1,5 +1,6 @@
 .search-container {
     margin-bottom: 3rem;
+    position: relative;
 }
 
 .search-input-group {
@@ -52,5 +53,39 @@
     &:hover {
         background: #f8f9fa !important;
         color: #495057 !important;
+    }
+}
+
+.auto-complete-container {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    margin-top: 5px;
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.auto-complete-list {
+    padding: 0.5rem 0;
+}
+
+.auto-complete-item {
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
+    &:hover {
+        background-color: rgba(108, 117, 125, 0.1);
+    }
+
+    &:last-child {
+        border-bottom: none;
     }
 }

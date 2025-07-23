@@ -1,13 +1,26 @@
+import { useState } from 'react';
 import { Container, Row, Col, InputGroup, Form, Button } from 'react-bootstrap';
+import { useAutocomplete } from '../../hooks/useAutocomplete';
+
 import './pokemon-search.less';
+
 export const PokemonSearch = ({
     setSearchTerm,
     handleSearch,
     searchTerm
 }) => {
-    const handleInnerSearch = (e) => {
+    const { autoCompleteList, handleFilterPokemon, setAutoCompleteList } = useAutocomplete();
+
+    const handleInputOnChange = (e) => {
         setSearchTerm(e.target.value);
         handleSearch(e.target.value);
+        handleFilterPokemon(e.target.value);
+    }
+
+    const handleItemClick = (item) => {
+        setSearchTerm(item);
+        handleSearch(item);
+        setAutoCompleteList([]); // Clear the autocomplete list
     }
 
     return (
@@ -23,7 +36,7 @@ export const PokemonSearch = ({
                                 type="text"
                                 placeholder="Search for a Pokémon..."
                                 value={searchTerm ?? ''}
-                                onChange={handleInnerSearch}
+                                onChange={handleInputOnChange}
                                 className="search-input"
                                 size="lg"
                             />
@@ -33,6 +46,7 @@ export const PokemonSearch = ({
                                     onClick={() => {
                                         setSearchTerm('');
                                         handleSearch('');
+                                        setAutoCompleteList([]); // Clear autocomplete when clearing search
                                     }}
                                     className="clear-button"
                                 >
@@ -40,6 +54,22 @@ export const PokemonSearch = ({
                                 </Button>
                             )}
                         </InputGroup>
+
+                        {autoCompleteList.length > 0 && (
+                            <div className="auto-complete-container">
+                                <div className="auto-complete-list">
+                                    {autoCompleteList?.map((item) => (
+                                        <div
+                                            key={item}
+                                            className="auto-complete-item"
+                                            onClick={() => handleItemClick(item)}
+                                        >
+                                            {item}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </Col>
             </Row>
