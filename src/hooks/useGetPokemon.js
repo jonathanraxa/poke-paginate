@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 import { useEffect, useState } from 'react';
 
 const url = 'https://pokeapi.co/api/v2/pokemon/';
@@ -9,6 +9,7 @@ export const useGetPokemon = ({ limit }) => {
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
+  const timerRef = useRef(null);
 
   const fetchAllPokemon = useCallback(async () => {
     setLoading(true);
@@ -46,7 +47,15 @@ export const useGetPokemon = ({ limit }) => {
     }
   }, [limit, page]);
 
-  const handleSearch = (searchTerm) => {
+
+  const useDebounce = (fn, delay = 3000) => {
+    return useCallback((...args) => {
+      clearTimeout(timerRef.current);
+      timerRef.current = setTimeout(() => fn(...args), delay);
+    }, [fn, delay]);
+  };
+
+  const filterQuery = (searchTerm) => {
     if (!searchTerm.trim()) {
       setFilteredPokemon(allPokemon); // Show all Pokemon when search is empty
     } else {
@@ -55,11 +64,19 @@ export const useGetPokemon = ({ limit }) => {
       );
       setFilteredPokemon(filtered);
     }
-  }
+  };
+
+  const handleSearch = useDebounce(query => filterQuery(query), 250);
 
   useEffect(() => {
     fetchAllPokemon();
   }, [fetchAllPokemon]);
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(timerRef?.current);
+    }
+  }, []);
 
   return {
     allPokemon: filteredPokemon, // Return filtered Pokemon instead of all Pokemon

@@ -1,52 +1,20 @@
 import { useState } from 'react';
 import { ButtonGroup, Button, Card, Form, InputGroup, Container, Row, Col } from 'react-bootstrap';
 import { useGetPokemon } from '../../hooks/useGetPokemon';
+import { PokemonSlideshow } from '../pokemon-slideshow/pokemon-slideshow';
+import { PokemonSearch } from '../pokemon-search/pokemon-search';
 import './pokemon-cards.less';
 
 export const PokemonCards = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const { handleSearch, allPokemon, page, setPage, total, loading } = useGetPokemon({ limit: 20 });
 
-  const handleInnerSearch = (e) => {
-    setSearchTerm(e.target.value);
-    handleSearch(e.target.value);
-  }
 
   return (
     <div className="pokemon-app">
-      <Container className="search-section">
-        <Row className="justify-content-center">
-          <Col md={6} lg={4}>
-            <div className="search-container">
-              <InputGroup className="search-input-group">
-                <InputGroup.Text className="search-icon">
-                  🔍
-                </InputGroup.Text>
-                <Form.Control
-                  type="text"
-                  placeholder="Search for a Pokémon..."
-                  value={searchTerm ?? ''}
-                  onChange={handleInnerSearch}
-                  className="search-input"
-                  size="lg"
-                />
-                {searchTerm && (
-                  <Button
-                    variant="outline-secondary"
-                    onClick={() => {
-                      setSearchTerm('');
-                      handleSearch('');
-                    }}
-                    className="clear-button"
-                  >
-                    ✕
-                  </Button>
-                )}
-              </InputGroup>
-            </div>
-          </Col>
-        </Row>
-      </Container>
+      <PokemonSearch setSearchTerm={setSearchTerm} handleSearch={handleSearch} searchTerm={searchTerm} />
+      <PokemonSlideshow allPokemon={allPokemon} />
+
       <div className="pokemon-grid">
         {loading ? (
           <div className="loading-container">

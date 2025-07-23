@@ -1,0 +1,26 @@
+.image-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 400px;
+    margin-bottom: 3rem;
+    padding: 2rem;
+}
+
+
+// Hover effects only for enabled buttons
+.btn:not(:disabled):hover {
+    transform: translateY(-2px);
+    transition: transform 0.2s ease;
+}
+
+// Style for the image container
+.image-container img {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+}
