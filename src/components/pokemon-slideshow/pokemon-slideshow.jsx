@@ -6,23 +6,20 @@ import './pokemon-slideshow.less';
 export const PokemonSlideshow = ({ allPokemon }) => {
     const [currentImage, setCurrentImage] = useState(0);
 
+    const totalPokemon = allPokemon.length;
+
     const handleNext = () => {
-        if (currentImage < allPokemon.length - 1) {
-            setCurrentImage(currentImage + 1);
-        }
+        setCurrentImage((currentImage + 1) % totalPokemon);
     }
 
     const handlePrevious = () => {
-        if (currentImage > 0) {
-            setCurrentImage(currentImage - 1);
-        }
+        setCurrentImage((currentImage - 1 + totalPokemon) % totalPokemon);
     }
 
     return (
         <div className='image-container'>
             <Button
                 onClick={handlePrevious}
-                disabled={currentImage === 0}
                 variant='primary'
             >
                 Previous
@@ -33,7 +30,6 @@ export const PokemonSlideshow = ({ allPokemon }) => {
             </div>
             <Button
                 onClick={handleNext}
-                disabled={currentImage === allPokemon.length - 1}
                 variant='primary'
             >
                 Next
