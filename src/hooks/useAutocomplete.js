@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { getPokemon } from '../api/pokemon';
 
 export const useAutocomplete = () => {

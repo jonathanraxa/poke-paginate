@@ -17,23 +17,25 @@ export const PokemonSlideshow = ({ allPokemon }) => {
     }
 
     return (
+       allPokemon.length > 0 && (
         <div className='image-container'>
-            <Button
-                onClick={handlePrevious}
-                variant='primary'
-            >
-                Previous
-            </Button>
-            <div>
-                <img src={allPokemon[currentImage]?.img} alt="pokemon" />
-                <div className='pokemon-name'>{allPokemon[currentImage]?.name}</div>
-            </div>
-            <Button
-                onClick={handleNext}
-                variant='primary'
-            >
-                Next
-            </Button>
+        <Button
+            onClick={handlePrevious}
+            variant='primary'
+        >
+            Previous
+        </Button>
+        <div>
+            <img src={allPokemon[currentImage]?.img} alt="pokemon" />
+            <div className='pokemon-name'>{allPokemon[currentImage]?.name}</div>
         </div>
+        <Button
+            onClick={handleNext}
+            variant='primary'
+        >
+            Next
+        </Button>
+    </div>
+    )
     );
 };
